@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "611878431720",
+    "project_id": "insta-flutter-fire",
+    "storage_bucket": "insta-flutter-fire.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611878431720:android:ee562bcf5c346f4fe9925d",
+        "android_client_info": {
+          "package_name": "com.example.insta_flutter_fire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611878431720-fepnn715b8n98v93roulcf4agtdj974i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQNYWM306vhXd7-PeAH2zsfGCPNULaIlo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611878431720-fepnn715b8n98v93roulcf4agtdj974i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "611878431720-lsqccrrcs0k8qmojb375vcb80tgfne4s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.instaFlutterFire"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

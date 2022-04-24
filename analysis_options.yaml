@@ -1,0 +1,8 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    directives_ordering: true # Sort imports by type
+    prefer_single_quotes: true # Uncomment to enable the `prefer_single_quotes` rule
+    prefer_relative_imports: true # Use relative imports for files in lib/
+    sort_pub_dependencies: true # Sort pubspec.yaml alphabetically
