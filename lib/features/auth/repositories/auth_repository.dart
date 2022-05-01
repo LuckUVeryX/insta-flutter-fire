@@ -51,6 +51,7 @@ class FirebaseAuthRepository implements IAuthRepository {
     'email-already-in-use': AuthExceptionEmailAlreadyInUse(),
     'invalid-email': AuthExceptionInvalidEmail(),
     'weak-password': AuthExceptionWeakPassword(),
+    'network-request-failed': AuthExceptionNetworkError(),
   };
 
   @override
@@ -132,6 +133,10 @@ class AuthExceptionUnknown extends AuthException {
 
 class AuthExceptionNotLoggedIn extends AuthException {
   AuthExceptionNotLoggedIn() : super('User is not logged in');
+}
+
+class AuthExceptionNetworkError extends AuthException {
+  AuthExceptionNetworkError() : super('Network error');
 }
 
 class AuthExceptionRegistration extends AuthException {
