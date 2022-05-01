@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../utils/image_path.dart';
+import '../models/models.dart';
 import '../repositories/auth_repository.dart';
 import 'notifiers/signup_notifier.dart';
 import 'widgets/widgets.dart';
@@ -43,6 +44,21 @@ class SignupPage extends HookWidget {
 
                     final isLoading = ref
                         .watch(signupProvider.select((info) => info.isLoading));
+
+                    ref.listen<SignupInfo>(
+                      signupProvider,
+                      (previous, next) {
+                        final exception = next.exception;
+                        if (exception is AuthExceptionUnknown ||
+                            exception is AuthExceptionNetworkError ||
+                            exception is AuthExceptionRegistration) {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(exception?.message ?? '')),
+                          );
+                        }
+                      },
+                    );
 
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -113,7 +129,6 @@ class SignupPage extends HookWidget {
                           controller: passwordController,
                           hintText: 'Enter your password',
                           obscureText: true,
-                          textInputAction: TextInputAction.done,
                           errorText: exception is AuthExceptionWeakPassword
                               ? exception.message
                               : null,
@@ -125,6 +140,7 @@ class SignupPage extends HookWidget {
                           controller: bioController,
                           hintText: 'Enter your bio',
                           onChanged: ref.read(signupProvider.notifier).setBio,
+                          textInputAction: TextInputAction.done,
                         ),
                         Container(
                           width: double.infinity,

@@ -202,6 +202,19 @@ void main() {
             AuthExceptionEmailAlreadyInUse(),
           );
         });
+        test('[AuthExceptionNetworkError]', () async {
+          when(auth.createUserWithEmailPassword(
+            email: anyNamed('email'),
+            password: anyNamed('password'),
+          )).thenThrow(AuthExceptionNetworkError());
+
+          await notifier.signUpWithEmailPassword();
+
+          expect(
+            notifier.debugState.exception,
+            AuthExceptionNetworkError(),
+          );
+        });
         test('[AuthExceptionInvalidEmail]', () async {
           when(auth.createUserWithEmailPassword(
             email: anyNamed('email'),
