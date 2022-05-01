@@ -11,18 +11,31 @@ environment:
 dependencies:
   cloud_firestore: ^3.1.13
   cupertino_icons: ^1.0.2
+  firebase_auth: ^3.3.15
   firebase_core: ^1.15.0
   firebase_storage: ^10.2.13
   flutter:
     sdk: flutter
-  riverpod: ^1.0.3
+  flutter_hooks: ^0.18.3
+  flutter_svg: ^1.0.3
+  freezed_annotation: ^2.0.1
+  hooks_riverpod: ^1.0.3
+  image_picker: ^0.8.5
+  logger: 
+    git: https://github.com/LuckUVeryX/logger.git
+  mockito: ^5.1.0
 
 
 dev_dependencies:
+  build_runner: ^2.1.10
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
+  freezed: ^2.0.2
 
 
 flutter:
   uses-material-design: true
+
+  assets:
+      - assets/svg/
