@@ -22,6 +22,7 @@ mixin _$SignupInfo {
   String get bio => throw _privateConstructorUsedError;
   Uint8List? get file => throw _privateConstructorUsedError;
   AppException? get exception => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SignupInfoCopyWith<SignupInfo> get copyWith =>
@@ -39,7 +40,8 @@ abstract class $SignupInfoCopyWith<$Res> {
       String username,
       String bio,
       Uint8List? file,
-      AppException? exception});
+      AppException? exception,
+      bool isLoading});
 }
 
 /// @nodoc
@@ -58,6 +60,7 @@ class _$SignupInfoCopyWithImpl<$Res> implements $SignupInfoCopyWith<$Res> {
     Object? bio = freezed,
     Object? file = freezed,
     Object? exception = freezed,
+    Object? isLoading = freezed,
   }) {
     return _then(_value.copyWith(
       email: email == freezed
@@ -84,6 +87,10 @@ class _$SignupInfoCopyWithImpl<$Res> implements $SignupInfoCopyWith<$Res> {
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
               as AppException?,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -100,7 +107,8 @@ abstract class _$SignupInfoCopyWith<$Res> implements $SignupInfoCopyWith<$Res> {
       String username,
       String bio,
       Uint8List? file,
-      AppException? exception});
+      AppException? exception,
+      bool isLoading});
 }
 
 /// @nodoc
@@ -121,6 +129,7 @@ class __$SignupInfoCopyWithImpl<$Res> extends _$SignupInfoCopyWithImpl<$Res>
     Object? bio = freezed,
     Object? file = freezed,
     Object? exception = freezed,
+    Object? isLoading = freezed,
   }) {
     return _then(_SignupInfo(
       email: email == freezed
@@ -147,6 +156,10 @@ class __$SignupInfoCopyWithImpl<$Res> extends _$SignupInfoCopyWithImpl<$Res>
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
               as AppException?,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -160,7 +173,8 @@ class _$_SignupInfo implements _SignupInfo {
       required this.username,
       required this.bio,
       required this.file,
-      required this.exception});
+      required this.exception,
+      required this.isLoading});
 
   @override
   final String email;
@@ -174,10 +188,12 @@ class _$_SignupInfo implements _SignupInfo {
   final Uint8List? file;
   @override
   final AppException? exception;
+  @override
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'SignupInfo(email: $email, password: $password, username: $username, bio: $bio, file: $file, exception: $exception)';
+    return 'SignupInfo(email: $email, password: $password, username: $username, bio: $bio, file: ${file != null}, exception: $exception, isLoading: $isLoading)';
   }
 
   @override
@@ -190,7 +206,8 @@ class _$_SignupInfo implements _SignupInfo {
             const DeepCollectionEquality().equals(other.username, username) &&
             const DeepCollectionEquality().equals(other.bio, bio) &&
             const DeepCollectionEquality().equals(other.file, file) &&
-            const DeepCollectionEquality().equals(other.exception, exception));
+            const DeepCollectionEquality().equals(other.exception, exception) &&
+            const DeepCollectionEquality().equals(other.isLoading, isLoading));
   }
 
   @override
@@ -201,7 +218,8 @@ class _$_SignupInfo implements _SignupInfo {
       const DeepCollectionEquality().hash(username),
       const DeepCollectionEquality().hash(bio),
       const DeepCollectionEquality().hash(file),
-      const DeepCollectionEquality().hash(exception));
+      const DeepCollectionEquality().hash(exception),
+      const DeepCollectionEquality().hash(isLoading));
 
   @JsonKey(ignore: true)
   @override
@@ -216,7 +234,8 @@ abstract class _SignupInfo implements SignupInfo {
       required final String username,
       required final String bio,
       required final Uint8List? file,
-      required final AppException? exception}) = _$_SignupInfo;
+      required final AppException? exception,
+      required final bool isLoading}) = _$_SignupInfo;
 
   @override
   String get email => throw _privateConstructorUsedError;
@@ -230,6 +249,8 @@ abstract class _SignupInfo implements SignupInfo {
   Uint8List? get file => throw _privateConstructorUsedError;
   @override
   AppException? get exception => throw _privateConstructorUsedError;
+  @override
+  bool get isLoading => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SignupInfoCopyWith<_SignupInfo> get copyWith =>

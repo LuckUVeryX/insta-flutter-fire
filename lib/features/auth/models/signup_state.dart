@@ -15,6 +15,7 @@ class SignupInfo with _$SignupInfo {
     required String bio,
     required Uint8List? file,
     required AppException? exception,
+    required bool isLoading,
   }) = _SignupInfo;
 
   factory SignupInfo.empty() {
@@ -25,6 +26,7 @@ class SignupInfo with _$SignupInfo {
       bio: '',
       file: null,
       exception: null,
+      isLoading: false,
     );
   }
 }
