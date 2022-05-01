@@ -59,6 +59,15 @@ class FirebaseAuthRepository implements IAuthRepository {
   }
 
   @override
+  Future<void> loginUserWithEmailPassword({
+    required String email,
+    required String password,
+  }) {
+    // TODO: implement loginUserWithEmailPassword
+    throw UnimplementedError();
+  }
+
+  @override
   Future<void> createUserWithEmailPassword({
     required String email,
     required String password,
@@ -85,6 +94,9 @@ class FirebaseAuthRepository implements IAuthRepository {
     required String bio,
     required String? profilePicUrl,
   }) async {
+    if (username.isEmpty) {
+      throw AuthExceptionEmptyUsername();
+    }
     try {
       await _firestore.collection('users').doc(uid).set({
         'username': username,
@@ -96,7 +108,7 @@ class FirebaseAuthRepository implements IAuthRepository {
       });
       _log.i('Register user profile success');
     } on FirebaseException catch (e) {
-      throw AuthExceptionUnknown(
+      throw AuthExceptionRegistration(
         e.message ?? 'Unknown registration error',
       );
     }
@@ -114,6 +126,10 @@ class AuthExceptionUnknown extends AuthException {
 
 class AuthExceptionNotLoggedIn extends AuthException {
   AuthExceptionNotLoggedIn() : super('User is not logged in');
+}
+
+class AuthExceptionRegistration extends AuthException {
+  AuthExceptionRegistration(String message) : super(message);
 }
 
 class AuthExceptionEmailAlreadyInUse extends AuthException {
@@ -134,5 +150,12 @@ class AuthExceptionWeakPassword extends AuthException {
   AuthExceptionWeakPassword()
       : super(
           'Password is not strong enough',
+        );
+}
+
+class AuthExceptionEmptyUsername extends AuthException {
+  AuthExceptionEmptyUsername()
+      : super(
+          'Username cannot be empty',
         );
 }
