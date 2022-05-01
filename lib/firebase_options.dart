@@ -60,7 +60,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '611878431720',
     projectId: 'insta-flutter-fire',
     storageBucket: 'insta-flutter-fire.appspot.com',
-    iosClientId: '611878431720-lsqccrrcs0k8qmojb375vcb80tgfne4s.apps.googleusercontent.com',
+    iosClientId:
+        '611878431720-lsqccrrcs0k8qmojb375vcb80tgfne4s.apps.googleusercontent.com',
     iosBundleId: 'com.example.instaFlutterFire',
   );
 }
