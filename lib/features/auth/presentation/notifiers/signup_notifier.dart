@@ -57,39 +57,37 @@ class SignupNotifier extends StateNotifier<SignupInfo> {
     state = state.copyWith(file: null, exception: null);
   }
 
-  void Function()? get signUpWithEmailPassword => state.exception == null
-      ? () async {
-          try {
-            state = state.copyWith(isLoading: true);
-            await _auth.createUserWithEmailPassword(
-              email: state.email,
-              password: state.password,
-            );
+  Future<void> signUpWithEmailPassword() async {
+    try {
+      state = state.copyWith(isLoading: true);
+      await _auth.createUserWithEmailPassword(
+        email: state.email,
+        password: state.password,
+      );
 
-            final profilePicData = state.file;
-            final String? profilePicUrl;
-            if (profilePicData != null) {
-              profilePicUrl = await _storage.uploadProfilePic(
-                userUid: _auth.userUid,
-                data: profilePicData,
-              );
-            } else {
-              profilePicUrl = null;
-            }
+      final profilePicData = state.file;
+      final String? profilePicUrl;
+      if (profilePicData != null) {
+        profilePicUrl = await _storage.uploadProfilePic(
+          userUid: _auth.userUid,
+          data: profilePicData,
+        );
+      } else {
+        profilePicUrl = null;
+      }
 
-            await _auth.registerUserProfile(
-              uid: _auth.userUid,
-              username: state.username,
-              bio: state.bio,
-              profilePicUrl: profilePicUrl,
-            );
-          } on AuthException catch (e) {
-            state = state.copyWith(exception: e);
-          } on StorageException catch (e) {
-            state = state.copyWith(exception: e);
-          } finally {
-            state = state.copyWith(isLoading: false);
-          }
-        }
-      : null;
+      await _auth.registerUserProfile(
+        uid: _auth.userUid,
+        username: state.username,
+        bio: state.bio,
+        profilePicUrl: profilePicUrl,
+      );
+    } on AuthException catch (e) {
+      state = state.copyWith(exception: e);
+    } on StorageException catch (e) {
+      state = state.copyWith(exception: e);
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
 }
