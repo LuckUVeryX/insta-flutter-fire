@@ -1,15 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'features/auth/presentation/signup_page.dart';
 import 'firebase_options.dart';
-import 'responsive/responsive.dart';
+import 'utils/logging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    ProviderScope(
+      child: const MyApp(),
+      observers: [ProviderLogObserver(AppLogger())],
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,12 +31,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.dark,
           seedColor: Colors.black,
+          background: Colors.black,
         ),
-      ).copyWith(scaffoldBackgroundColor: Colors.black),
-      home: const ResponsiveLayout(
-        mobileScreenLayout: MobileScreenLayout(),
-        webScreenLayout: WebScreenLayout(),
       ),
+      // home: const ResponsiveLayout(
+      //   mobileScreenLayout: MobileScreenLayout(),
+      //   webScreenLayout: WebScreenLayout(),
+      // ),
+      home: const SignupPage(),
     );
   }
 }
