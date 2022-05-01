@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDQNYWM306vhXd7-PeAH2zsfGCPNULaIlo',
-    appId: '1:611878431720:android:ee562bcf5c346f4fe9925d',
+    appId: '1:611878431720:android:42862c8a2ee67245e9925d',
     messagingSenderId: '611878431720',
     projectId: 'insta-flutter-fire',
     storageBucket: 'insta-flutter-fire.appspot.com',
@@ -56,12 +56,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAgzYzZaMYlWzk_PyBZFbDKm08a4GGdMSA',
-    appId: '1:611878431720:ios:0b9f29eb20623b04e9925d',
+    appId: '1:611878431720:ios:ca4687e180d12422e9925d',
     messagingSenderId: '611878431720',
     projectId: 'insta-flutter-fire',
     storageBucket: 'insta-flutter-fire.appspot.com',
-    iosClientId:
-        '611878431720-lsqccrrcs0k8qmojb375vcb80tgfne4s.apps.googleusercontent.com',
-    iosBundleId: 'com.example.instaFlutterFire',
+    iosClientId: '611878431720-4koh7fr4fist6nrlk0pkcas08c1n3qdl.apps.googleusercontent.com',
+    iosBundleId: 'com.luckuveryx.instaFlutterFire',
   );
 }
