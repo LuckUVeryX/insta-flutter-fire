@@ -60,6 +60,7 @@ class SignupNotifier extends StateNotifier<SignupInfo> {
   void Function()? get signUpWithEmailPassword => state.exception == null
       ? () async {
           try {
+            state = state.copyWith(isLoading: true);
             await _auth.createUserWithEmailPassword(
               email: state.email,
               password: state.password,
@@ -86,6 +87,8 @@ class SignupNotifier extends StateNotifier<SignupInfo> {
             state = state.copyWith(exception: e);
           } on StorageException catch (e) {
             state = state.copyWith(exception: e);
+          } finally {
+            state = state.copyWith(isLoading: false);
           }
         }
       : null;

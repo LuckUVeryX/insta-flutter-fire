@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,7 +15,6 @@ class SignupPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
 
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
@@ -37,10 +35,14 @@ class SignupPage extends HookWidget {
                 ),
                 child: IntrinsicHeight(
                   child: Consumer(builder: (context, ref, __) {
-                    final signupInfo = ref.watch(signupProvider);
+                    final image =
+                        ref.watch(signupProvider.select((info) => info.file));
 
-                    final bool hasImage = signupInfo.file != null &&
-                        signupInfo.file?.isNotEmpty == true;
+                    final exception = ref
+                        .watch(signupProvider.select((info) => info.exception));
+
+                    final isLoading = ref
+                        .watch(signupProvider.select((info) => info.isLoading));
 
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -57,10 +59,9 @@ class SignupPage extends HookWidget {
                           children: [
                             CircleAvatar(
                               radius: 64,
-                              backgroundImage: hasImage
-                                  ? MemoryImage(signupInfo.file!)
-                                  : null,
-                              child: hasImage
+                              backgroundImage:
+                                  image != null ? MemoryImage(image) : null,
+                              child: image != null
                                   ? null
                                   : Icon(
                                       Icons.person,
@@ -94,21 +95,14 @@ class SignupPage extends HookWidget {
                               ref.read(signupProvider.notifier).setUsername,
                         ),
                         AuthTextField(
-                          textInputType: TextInputType.text,
-                          controller: bioController,
-                          hintText: 'Enter your bio',
-                          onChanged: ref.read(signupProvider.notifier).setBio,
-                        ),
-                        AuthTextField(
                           textInputType: TextInputType.emailAddress,
                           controller: emailController,
                           hintText: 'Enter your email',
-                          errorText: signupInfo.exception
-                                      is AuthExceptionEmailAlreadyInUse ||
-                                  signupInfo.exception
-                                      is AuthExceptionInvalidEmail
-                              ? signupInfo.exception?.message
-                              : null,
+                          errorText:
+                              exception is AuthExceptionEmailAlreadyInUse ||
+                                      exception is AuthExceptionInvalidEmail
+                                  ? exception?.message
+                                  : null,
                           onChanged: ref.read(signupProvider.notifier).setEmail,
                         ),
                         AuthTextField(
@@ -117,42 +111,38 @@ class SignupPage extends HookWidget {
                           hintText: 'Enter your password',
                           obscureText: true,
                           textInputAction: TextInputAction.done,
-                          errorText:
-                              signupInfo.exception is AuthExceptionWeakPassword
-                                  ? signupInfo.exception?.message
-                                  : null,
+                          errorText: exception is AuthExceptionWeakPassword
+                              ? exception.message
+                              : null,
                           onChanged:
                               ref.read(signupProvider.notifier).setPassword,
+                        ),
+                        AuthTextField(
+                          textInputType: TextInputType.text,
+                          controller: bioController,
+                          hintText: 'Enter your bio',
+                          onChanged: ref.read(signupProvider.notifier).setBio,
                         ),
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: ElevatedButton(
-                            onPressed: ref
-                                .read(signupProvider.notifier)
-                                .signUpWithEmailPassword,
-                            child: const Text('Sign up'),
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            style: textTheme.bodyMedium,
-                            children: [
-                              const TextSpan(text: "Don't have an account? "),
-                              TextSpan(
-                                text: 'Sign up.',
-                                style: textTheme.bodyMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {},
-                              ),
-                            ],
-                          ),
+                          child: isLoading
+                              ? const SizedBox(
+                                  height: 28.0,
+                                  child:
+                                      Center(child: LinearProgressIndicator()),
+                                )
+                              : ElevatedButton(
+                                  onPressed: ref
+                                      .read(signupProvider.notifier)
+                                      .signUpWithEmailPassword,
+                                  child: const Text('Sign up'),
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                  ),
+                                ),
                         ),
                       ],
                     );
