@@ -32,6 +32,12 @@ abstract class IAuthRepository {
     required String bio,
     required String? profilePicUrl,
   });
+
+  /// Login user using email and password.
+  Future<void> loginUserWithEmailPassword({
+    required String email,
+    required String password,
+  });
 }
 
 class FirebaseAuthRepository implements IAuthRepository {
