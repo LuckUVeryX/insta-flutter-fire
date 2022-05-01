@@ -93,6 +93,9 @@ class SignupPage extends HookWidget {
                           hintText: 'Enter your username',
                           onChanged:
                               ref.read(signupProvider.notifier).setUsername,
+                          errorText: exception is AuthExceptionEmptyUsername
+                              ? exception.message
+                              : null,
                         ),
                         AuthTextField(
                           textInputType: TextInputType.emailAddress,
@@ -133,9 +136,11 @@ class SignupPage extends HookWidget {
                                       Center(child: LinearProgressIndicator()),
                                 )
                               : ElevatedButton(
-                                  onPressed: ref
-                                      .read(signupProvider.notifier)
-                                      .signUpWithEmailPassword,
+                                  onPressed: exception != null
+                                      ? null
+                                      : ref
+                                          .read(signupProvider.notifier)
+                                          .signUpWithEmailPassword,
                                   child: const Text('Sign up'),
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(

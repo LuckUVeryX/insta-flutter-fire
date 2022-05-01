@@ -29,6 +29,10 @@ void main() {
           imagePicker: imagePicker, auth: auth, storage: storage);
     }
 
+    Future<Uint8List> generateDummyData() async {
+      return Uint8List.fromList([1, 2, 3, 4, 5]);
+    }
+
     test('should initialise with the correct values', () {
       final notifier = createNotifier();
 
@@ -39,10 +43,6 @@ void main() {
       late SignupNotifier notifier;
 
       setUp(() => notifier = createNotifier());
-
-      Future<Uint8List> generateDummyData() async {
-        return Uint8List.fromList([1, 2, 3, 4, 5]);
-      }
 
       test('email', () {
         notifier.setEmail('test email');
@@ -94,6 +94,192 @@ void main() {
 
         notifier.removeImage();
         expect(notifier.debugState.file, null);
+      });
+    });
+
+    group('signUpWithEmailPassword', () {
+      setUp(() {
+        when(auth.userUid).thenReturn('test userId');
+      });
+      test('should update state to loading when called', () async {
+        final notifier = createNotifier();
+
+        final future = notifier.signUpWithEmailPassword();
+
+        expect(notifier.debugState.isLoading, true);
+
+        await future;
+        expect(notifier.debugState.isLoading, false);
+      });
+
+      test('should call createUserWithEmailPassword from IAuthRepository',
+          () async {
+        when(auth.createUserWithEmailPassword()).thenAnswer((_) async {});
+        final notifier = createNotifier();
+
+        await notifier.signUpWithEmailPassword();
+
+        verify(auth.createUserWithEmailPassword(
+          email: anyNamed('email'),
+          password: anyNamed('password'),
+        )).called(1);
+      });
+
+      test('should call registerUserProfile from IAuthRepository', () async {
+        when(auth.registerUserProfile()).thenAnswer((_) async {});
+        final notifier = createNotifier();
+
+        await notifier.signUpWithEmailPassword();
+
+        verify(auth.registerUserProfile(
+          uid: anyNamed('uid'),
+          username: anyNamed('username'),
+          bio: anyNamed('bio'),
+          profilePicUrl: anyNamed('profilePicUrl'),
+        )).called(1);
+      });
+
+      test(
+          'should call uploadProfilePic from IStorageRepository and registerUserProfile from IAuthRepository with correct profilePicUrl when profile pic data is provided',
+          () async {
+        when(storage.uploadProfilePic(
+          data: anyNamed('data'),
+          userUid: anyNamed('userUid'),
+        )).thenAnswer((_) async => 'test url');
+        when(imagePicker.pickImageFromGallery())
+            .thenAnswer((_) async => generateDummyData());
+        final notifier = createNotifier();
+
+        await notifier.setGalleryImage();
+        await notifier.signUpWithEmailPassword();
+
+        verify(storage.uploadProfilePic(
+          data: await generateDummyData(),
+          userUid: anyNamed('userUid'),
+        )).called(1);
+
+        verify(auth.registerUserProfile(
+          bio: anyNamed('bio'),
+          uid: anyNamed('uid'),
+          username: anyNamed('username'),
+          profilePicUrl: 'test url',
+        )).called(1);
+      });
+
+      test(
+          'should not call uploadProfilePic from IStorageRepository when profile pic data is not provided',
+          () async {
+        when(storage.uploadProfilePic(
+          data: anyNamed('data'),
+          userUid: anyNamed('userUid'),
+        )).thenAnswer((_) async => 'test url');
+
+        final notifier = createNotifier();
+
+        await notifier.signUpWithEmailPassword();
+
+        verifyNever(storage.uploadProfilePic(
+          data: await generateDummyData(),
+          userUid: anyNamed('userUid'),
+        ));
+      });
+
+      group('should update exception state when AuthException is thrown', () {
+        late SignupNotifier notifier;
+        setUp(() {
+          notifier = createNotifier();
+        });
+        test('[AuthExceptionEmailAlreadyInUse]', () async {
+          when(auth.createUserWithEmailPassword(
+            email: anyNamed('email'),
+            password: anyNamed('password'),
+          )).thenThrow(AuthExceptionEmailAlreadyInUse());
+
+          await notifier.signUpWithEmailPassword();
+
+          expect(
+            notifier.debugState.exception,
+            AuthExceptionEmailAlreadyInUse(),
+          );
+        });
+        test('[AuthExceptionInvalidEmail]', () async {
+          when(auth.createUserWithEmailPassword(
+            email: anyNamed('email'),
+            password: anyNamed('password'),
+          )).thenThrow(AuthExceptionInvalidEmail());
+
+          await notifier.signUpWithEmailPassword();
+
+          expect(
+            notifier.debugState.exception,
+            AuthExceptionInvalidEmail(),
+          );
+        });
+        test('[AuthExceptionWeakPassword]', () async {
+          when(auth.createUserWithEmailPassword(
+            email: anyNamed('email'),
+            password: anyNamed('password'),
+          )).thenThrow(AuthExceptionWeakPassword());
+
+          await notifier.signUpWithEmailPassword();
+
+          expect(
+            notifier.debugState.exception,
+            AuthExceptionWeakPassword(),
+          );
+        });
+        test('[AuthExceptionEmptyUsername]', () async {
+          when(auth.createUserWithEmailPassword(
+            email: anyNamed('email'),
+            password: anyNamed('password'),
+          )).thenThrow(AuthExceptionEmptyUsername());
+
+          await notifier.signUpWithEmailPassword();
+
+          expect(
+            notifier.debugState.exception,
+            AuthExceptionEmptyUsername(),
+          );
+        });
+        test('[AuthExceptionRegistration]', () async {
+          when(auth.registerUserProfile(
+            uid: anyNamed('uid'),
+            username: anyNamed('username'),
+            bio: anyNamed('bio'),
+            profilePicUrl: anyNamed('profilePicUrl'),
+          )).thenThrow(
+              AuthExceptionRegistration('test registration exception'));
+
+          await notifier.signUpWithEmailPassword();
+
+          expect(
+            notifier.debugState.exception,
+            AuthExceptionRegistration('test registration exception'),
+          );
+        });
+      });
+      group('should update exception state when StorageException is thrown',
+          () {
+        late SignupNotifier notifier;
+        setUp(() {
+          notifier = createNotifier();
+        });
+
+        test('[ProfilePicStorageException]', () async {
+          when(storage.uploadProfilePic(
+                  data: anyNamed('data'), userUid: anyNamed('userUid')))
+              .thenThrow(ProfilePicStorageException('test storage exception'));
+          when(imagePicker.pickImageFromCamera())
+              .thenAnswer((_) async => generateDummyData());
+
+          await notifier.setCameraImage();
+          await notifier.signUpWithEmailPassword();
+
+          expect(
+            notifier.debugState.exception,
+            ProfilePicStorageException('test storage exception'),
+          );
+        });
       });
     });
   });
