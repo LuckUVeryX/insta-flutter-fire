@@ -54,11 +54,12 @@ class MyApp extends StatelessWidget {
 }
 
 Future<void> _configureFirebaseEmulator() async {
+  const host = String.fromEnvironment('IPADDR');
   FirebaseFirestore.instance.settings = const Settings(
-    host: 'localhost:8080',
+    host: '$host:8080',
     sslEnabled: false,
     persistenceEnabled: false,
   );
-  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+  await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+  await FirebaseStorage.instance.useStorageEmulator(host, 9199);
 }

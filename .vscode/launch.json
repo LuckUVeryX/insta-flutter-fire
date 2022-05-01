@@ -7,7 +7,11 @@
         {
             "name": "insta_flutter_fire",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define",
+                "IPADDR=$(ipconfig getifaddr en0)"
+            ]
         },
         {
             "name": "Flutter: Run all Tests",
