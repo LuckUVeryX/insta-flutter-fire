@@ -1,4 +1,4 @@
-package com.example.insta_flutter_fire
+package com.luckuveryx.instaFlutterFire
 
 import io.flutter.embedding.android.FlutterActivity
 

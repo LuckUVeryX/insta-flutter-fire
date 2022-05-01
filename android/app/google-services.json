@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:611878431720:android:ee562bcf5c346f4fe9925d",
+        "mobilesdk_app_id": "1:611878431720:android:42862c8a2ee67245e9925d",
         "android_client_info": {
-          "package_name": "com.example.insta_flutter_fire"
+          "package_name": "com.luckuveryx.instaFlutterFire"
         }
       },
       "oauth_client": [
@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "611878431720-lsqccrrcs0k8qmojb375vcb80tgfne4s.apps.googleusercontent.com",
+              "client_id": "611878431720-4koh7fr4fist6nrlk0pkcas08c1n3qdl.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.instaFlutterFire"
+                "bundle_id": "com.luckuveryx.instaFlutterFire"
               }
             }
           ]

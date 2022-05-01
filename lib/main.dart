@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,6 +15,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  const bool useFirebaseEmulator = true;
+  if (useFirebaseEmulator && kDebugMode) {
+    await _configureFirebaseEmulator();
+  }
+
   runApp(
     ProviderScope(
       child: const MyApp(),
@@ -41,4 +51,14 @@ class MyApp extends StatelessWidget {
       home: const SignupPage(),
     );
   }
+}
+
+Future<void> _configureFirebaseEmulator() async {
+  FirebaseFirestore.instance.settings = const Settings(
+    host: 'localhost:8080',
+    sslEnabled: false,
+    persistenceEnabled: false,
+  );
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
 }
