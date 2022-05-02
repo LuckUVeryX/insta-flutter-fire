@@ -5,6 +5,7 @@ import 'package:insta_flutter_fire/features/auth/models/models.dart';
 import 'package:insta_flutter_fire/features/auth/presentation/notifiers/signup_notifier.dart';
 import 'package:insta_flutter_fire/features/auth/repositories/auth_repository.dart';
 import 'package:insta_flutter_fire/features/image_picker/repositories/image_picker_repository.dart.dart';
+import 'package:insta_flutter_fire/features/storage/models/storage_exception.dart';
 import 'package:insta_flutter_fire/features/storage/respositories/storage_repository.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

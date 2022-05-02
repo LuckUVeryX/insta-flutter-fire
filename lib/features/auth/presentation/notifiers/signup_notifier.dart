@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../image_picker/repositories/image_picker_repository.dart.dart';
+import '../../../storage/models/storage_exception.dart';
 import '../../../storage/respositories/storage_repository.dart';
 import '../../models/models.dart';
 import '../../repositories/auth_repository.dart';
