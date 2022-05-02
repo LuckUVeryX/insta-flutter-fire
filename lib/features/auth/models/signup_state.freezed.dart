@@ -193,7 +193,7 @@ class _$_SignupInfo implements _SignupInfo {
 
   @override
   String toString() {
-    return 'SignupInfo(email: $email, password: $password, username: $username, bio: $bio, file: ${file != null}, exception: $exception, isLoading: $isLoading)';
+    return 'SignupInfo(email: $email, password: $password, username: $username, bio: $bio, file: $file, exception: $exception, isLoading: $isLoading)';
   }
 
   @override
