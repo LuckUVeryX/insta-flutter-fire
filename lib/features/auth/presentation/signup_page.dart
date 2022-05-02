@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../utils/image_path.dart';
 import '../models/models.dart';
-import '../repositories/auth_repository.dart';
 import 'notifiers/signup_notifier.dart';
 import 'widgets/widgets.dart';
 
@@ -49,9 +48,7 @@ class SignupPage extends HookWidget {
                       signupProvider,
                       (previous, next) {
                         final exception = next.exception;
-                        if (exception is AuthExceptionUnknown ||
-                            exception is AuthExceptionNetworkError ||
-                            exception is AuthExceptionRegistration) {
+                        if (exception is! AuthException || !exception.isField) {
                           ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(exception?.message ?? '')),
@@ -109,7 +106,7 @@ class SignupPage extends HookWidget {
                           hintText: 'Enter your username',
                           onChanged:
                               ref.read(signupProvider.notifier).setUsername,
-                          errorText: exception is AuthExceptionEmptyUsername
+                          errorText: exception is AuthUsernameException
                               ? exception.message
                               : null,
                         ),
@@ -117,11 +114,9 @@ class SignupPage extends HookWidget {
                           textInputType: TextInputType.emailAddress,
                           controller: emailController,
                           hintText: 'Enter your email',
-                          errorText:
-                              exception is AuthExceptionEmailAlreadyInUse ||
-                                      exception is AuthExceptionInvalidEmail
-                                  ? exception?.message
-                                  : null,
+                          errorText: exception is AuthEmailException
+                              ? exception.message
+                              : null,
                           onChanged: ref.read(signupProvider.notifier).setEmail,
                         ),
                         AuthTextField(
@@ -129,7 +124,7 @@ class SignupPage extends HookWidget {
                           controller: passwordController,
                           hintText: 'Enter your password',
                           obscureText: true,
-                          errorText: exception is AuthExceptionWeakPassword
+                          errorText: exception is AuthPasswordException
                               ? exception.message
                               : null,
                           onChanged:

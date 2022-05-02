@@ -4,8 +4,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 
-import '../../../error/app_exception.dart';
 import '../../../utils/logging.dart';
+import '../models/storage_exception.dart';
 
 final storageRepositoryProvider = Provider<IStorageRepository>((ref) {
   return FirebaseStorageRepository(ref.watch(loggerProvider));
@@ -43,13 +43,4 @@ class FirebaseStorageRepository implements IStorageRepository {
       throw ProfilePicStorageException(e.message);
     }
   }
-}
-
-abstract class StorageException extends AppException {
-  StorageException(String message) : super(message);
-}
-
-class ProfilePicStorageException extends StorageException {
-  ProfilePicStorageException([String? message])
-      : super(message ?? 'Error uploading profile picture');
 }

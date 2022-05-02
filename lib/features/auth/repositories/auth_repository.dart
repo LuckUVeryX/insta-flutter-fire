@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 
-import '../../../error/app_exception.dart';
 import '../../../utils/logging.dart';
+import '../models/auth_exception.dart';
 
 final authRepositoryProvider = Provider<IAuthRepository>((ref) {
   return FirebaseAuthRepository(ref.watch(loggerProvider));
@@ -52,6 +52,9 @@ class FirebaseAuthRepository implements IAuthRepository {
     'invalid-email': AuthExceptionInvalidEmail(),
     'weak-password': AuthExceptionWeakPassword(),
     'network-request-failed': AuthExceptionNetworkError(),
+    'user-disabled': AuthExceptionUserDisabled(),
+    'user-not-found': AuthExceptionUserNotFound(),
+    'wrong-password': AuthExceptionWrongPassword(),
   };
 
   @override
@@ -69,9 +72,17 @@ class FirebaseAuthRepository implements IAuthRepository {
   Future<void> loginUserWithEmailPassword({
     required String email,
     required String password,
-  }) {
-    // TODO: implement loginUserWithEmailPassword
-    throw UnimplementedError();
+  }) async {
+    if (email.isEmpty) throw AuthExceptionEmailEmpty();
+    if (password.isEmpty) throw AuthExceptionPasswordEmpty();
+
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      _log.e(e);
+      throw _authExceptionMap[e.code] ??
+          AuthExceptionUnknown(e.message ?? 'Some error occurred');
+    }
   }
 
   @override
@@ -120,53 +131,4 @@ class FirebaseAuthRepository implements IAuthRepository {
       );
     }
   }
-}
-
-// * Auth Exceptions
-abstract class AuthException extends AppException {
-  AuthException(String message) : super(message);
-}
-
-class AuthExceptionUnknown extends AuthException {
-  AuthExceptionUnknown(String message) : super(message);
-}
-
-class AuthExceptionNotLoggedIn extends AuthException {
-  AuthExceptionNotLoggedIn() : super('User is not logged in');
-}
-
-class AuthExceptionNetworkError extends AuthException {
-  AuthExceptionNetworkError() : super('Network error');
-}
-
-class AuthExceptionRegistration extends AuthException {
-  AuthExceptionRegistration(String message) : super(message);
-}
-
-class AuthExceptionEmailAlreadyInUse extends AuthException {
-  AuthExceptionEmailAlreadyInUse()
-      : super(
-          'There already exists an account with the given email address',
-        );
-}
-
-class AuthExceptionInvalidEmail extends AuthException {
-  AuthExceptionInvalidEmail()
-      : super(
-          'Email address is not valid',
-        );
-}
-
-class AuthExceptionWeakPassword extends AuthException {
-  AuthExceptionWeakPassword()
-      : super(
-          'Password is not strong enough',
-        );
-}
-
-class AuthExceptionEmptyUsername extends AuthException {
-  AuthExceptionEmptyUsername()
-      : super(
-          'Username cannot be empty',
-        );
 }
