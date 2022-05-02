@@ -5,6 +5,18 @@ abstract class AuthException extends AppException {
   AuthException(String message, {this.isField = false}) : super(message);
 
   final bool isField;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AuthException &&
+        other.isField == isField &&
+        other.message == message;
+  }
+
+  @override
+  int get hashCode => isField.hashCode;
 }
 
 abstract class AuthEmailException extends AuthException {

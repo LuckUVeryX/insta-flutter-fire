@@ -26,6 +26,8 @@ abstract class IAuthRepository {
   });
 
   /// Register user's username, bio and profile picture URL database.
+  ///
+  /// An [AuthException] maybe thrown if there is error registering.
   Future<void> registerUserProfile({
     required String uid,
     required String username,
@@ -34,6 +36,8 @@ abstract class IAuthRepository {
   });
 
   /// Login user using email and password.
+  ///
+  /// An [AuthException] maybe thrown if there is error logging in.
   Future<void> loginUserWithEmailPassword({
     required String email,
     required String password,
