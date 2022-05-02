@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,8 +7,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'features/auth/presentation/signup_page.dart';
+import 'features/auth/repositories/auth_repository.dart';
 import 'firebase_options.dart';
+import 'router/app_router.gr.dart';
 import 'utils/logging.dart';
 
 void main() async {
@@ -23,18 +25,21 @@ void main() async {
 
   runApp(
     ProviderScope(
-      child: const MyApp(),
+      child: MyApp(),
       observers: [ProviderLogObserver(AppLogger())],
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends ConsumerWidget {
+  MyApp({Key? key}) : super(key: key);
+
+  final _appRouter = AppRouter();
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authLoginStatus = ref.watch(authLoginStatusProvider);
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Instagram Flutter Fire',
       theme: ThemeData.from(
@@ -44,11 +49,23 @@ class MyApp extends StatelessWidget {
           background: Colors.black,
         ),
       ),
+      routeInformationParser: _appRouter.defaultRouteParser(
+        includePrefixMatches: true,
+      ),
+      routerDelegate: AutoRouterDelegate.declarative(
+        _appRouter,
+        routes: authLoginStatus.when(
+          data: ((isLoggedIn) => (_) => [
+                if (isLoggedIn) const TempHomeRoute() else const AuthRouter(),
+              ]),
+          error: (e, trace) => (_) => [ErrorRoute(e: e, trace: trace)],
+          loading: () => (_) => [const LoadingRoute()],
+        ),
+      ),
       // home: const ResponsiveLayout(
       //   mobileScreenLayout: MobileScreenLayout(),
       //   webScreenLayout: WebScreenLayout(),
       // ),
-      home: const SignupPage(),
     );
   }
 }

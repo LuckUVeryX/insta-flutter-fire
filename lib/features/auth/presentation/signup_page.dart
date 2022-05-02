@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,6 +17,7 @@ class SignupPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
@@ -48,26 +51,27 @@ class SignupPage extends HookWidget {
                       signupProvider,
                       (previous, next) {
                         final exception = next.exception;
-                        if (exception is! AuthException || !exception.isField) {
+                        if (exception != null &&
+                            (exception is! AuthException ||
+                                !exception.isField)) {
                           ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(exception?.message ?? '')),
+                            SnackBar(content: Text(exception.message ?? '')),
                           );
                         }
                       },
                     );
 
                     return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 32.0),
+                        const Spacer(),
                         SvgPicture.asset(
                           ImagePath.kInstagramLogo,
                           height: 64.0,
                           color: colorScheme.onBackground,
                         ),
-                        const SizedBox(height: 32.0),
+                        const Spacer(),
                         Stack(
                           children: [
                             CircleAvatar(
@@ -99,7 +103,7 @@ class SignupPage extends HookWidget {
                             )
                           ],
                         ),
-                        const SizedBox(height: 32.0),
+                        const Spacer(),
                         AuthTextField(
                           textInputType: TextInputType.text,
                           controller: usernameController,
@@ -160,6 +164,7 @@ class SignupPage extends HookWidget {
                                   ),
                                 ),
                         ),
+                        const Spacer(),
                       ],
                     );
                   }),
@@ -168,6 +173,26 @@ class SignupPage extends HookWidget {
             ),
           );
         }),
+      ),
+      bottomSheet: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        width: double.infinity,
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: textTheme.bodyMedium,
+            children: [
+              const TextSpan(text: 'Already have an account? '),
+              TextSpan(
+                text: 'Log in.',
+                style:
+                    textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => context.router.popUntilRoot(),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

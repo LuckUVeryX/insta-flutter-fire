@@ -31,6 +31,10 @@ class MockIAuthRepository extends _i1.Mock implements _i2.IAuthRepository {
       (super.noSuchMethod(Invocation.getter(#userUid), returnValue: '')
           as String);
   @override
+  _i3.Stream<bool> get authLoginStatus =>
+      (super.noSuchMethod(Invocation.getter(#authLoginStatus),
+          returnValue: Stream<bool>.empty()) as _i3.Stream<bool>);
+  @override
   _i3.Future<void> createUserWithEmailPassword(
           {String? email, String? password}) =>
       (super.noSuchMethod(

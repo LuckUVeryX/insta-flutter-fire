@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../router/app_router.gr.dart';
 import '../../../utils/image_path.dart';
 import '../models/models.dart';
 import 'notifiers/login_notifier.dart';
@@ -47,7 +49,7 @@ class LoginPage extends HookWidget {
                   height: 64.0,
                   color: colorScheme.onBackground,
                 ),
-                const SizedBox(height: 64.0),
+                const SizedBox(height: 24.0),
                 AuthTextField(
                   textInputType: TextInputType.emailAddress,
                   controller: emailController,
@@ -57,7 +59,6 @@ class LoginPage extends HookWidget {
                       : null,
                   onChanged: ref.read(loginProvider.notifier).setEmail,
                 ),
-                const SizedBox(height: 24.0),
                 AuthTextField(
                   textInputType: TextInputType.text,
                   controller: passwordController,
@@ -67,10 +68,10 @@ class LoginPage extends HookWidget {
                       ? exception.message
                       : null,
                   onChanged: ref.read(loginProvider.notifier).setPassword,
+                  textInputAction: TextInputAction.done,
                 ),
-                Container(
+                SizedBox(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Consumer(builder: (_, ref, __) {
                     final isLoading = ref.watch(
                         loginProvider.select((value) => value.isLoading));
@@ -90,24 +91,30 @@ class LoginPage extends HookWidget {
                           );
                   }),
                 ),
-                const Spacer(flex: 2),
-                RichText(
-                  text: TextSpan(
-                    style: textTheme.bodyMedium,
-                    children: [
-                      const TextSpan(text: "Don't have an account? "),
-                      TextSpan(
-                        text: 'Sign up.',
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                        recognizer: TapGestureRecognizer()..onTap = () {},
-                      ),
-                    ],
-                  ),
-                ),
+                const Spacer(),
               ],
             );
           }),
+        ),
+      ),
+      bottomSheet: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        width: double.infinity,
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: textTheme.bodyMedium,
+            children: [
+              const TextSpan(text: "Don't have an account? "),
+              TextSpan(
+                text: 'Sign up.',
+                style:
+                    textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => context.router.push(const SignupRoute()),
+              ),
+            ],
+          ),
         ),
       ),
     );
