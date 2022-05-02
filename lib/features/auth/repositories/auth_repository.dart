@@ -6,6 +6,10 @@ import 'package:logger/logger.dart';
 import '../../../utils/logging.dart';
 import '../models/auth_exception.dart';
 
+final authLoginStatusProvider = StreamProvider<bool>((ref) {
+  return ref.watch(authRepositoryProvider).authLoginStatus;
+});
+
 final authRepositoryProvider = Provider<IAuthRepository>((ref) {
   return FirebaseAuthRepository(ref.watch(loggerProvider));
 });
@@ -16,6 +20,9 @@ abstract class IAuthRepository {
   /// Throws [AuthExceptionNotLoggedIn] if this method is called when user is
   /// not logged in.
   String get userUid;
+
+  /// Returns stream of bool indicating the login status.
+  Stream<bool> get authLoginStatus;
 
   /// Sign up user with auth service.
   ///
@@ -42,6 +49,11 @@ abstract class IAuthRepository {
     required String email,
     required String password,
   });
+
+  /// Signs out the current user.
+  ///
+  /// If successful, it also updates any [authLoginStatus] stream listeners.
+  Future<void> signout();
 }
 
 class FirebaseAuthRepository implements IAuthRepository {
@@ -70,6 +82,12 @@ class FirebaseAuthRepository implements IAuthRepository {
       _log.e('Firebase user is null');
       throw AuthExceptionNotLoggedIn();
     }
+  }
+
+  @override
+  Stream<bool> get authLoginStatus {
+    _auth.authStateChanges().listen(_log.wtf);
+    return _auth.authStateChanges().map((user) => user != null);
   }
 
   @override
@@ -134,5 +152,10 @@ class FirebaseAuthRepository implements IAuthRepository {
         e.message ?? 'Unknown registration error',
       );
     }
+  }
+
+  @override
+  Future<void> signout() async {
+    await _auth.signOut();
   }
 }
