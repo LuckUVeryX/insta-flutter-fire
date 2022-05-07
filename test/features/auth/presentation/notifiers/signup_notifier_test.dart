@@ -133,6 +133,7 @@ void main() {
         await notifier.signUpWithEmailPassword();
 
         verify(auth.registerUserProfile(
+          email: anyNamed('email'),
           uid: anyNamed('uid'),
           username: anyNamed('username'),
           bio: anyNamed('bio'),
@@ -160,6 +161,7 @@ void main() {
         )).called(1);
 
         verify(auth.registerUserProfile(
+          email: anyNamed('email'),
           bio: anyNamed('bio'),
           uid: anyNamed('uid'),
           username: anyNamed('username'),
@@ -257,6 +259,7 @@ void main() {
         });
         test('[AuthExceptionRegistration]', () async {
           when(auth.registerUserProfile(
+            email: anyNamed('email'),
             uid: anyNamed('uid'),
             username: anyNamed('username'),
             bio: anyNamed('bio'),

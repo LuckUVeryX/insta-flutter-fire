@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 
+import '../../../models/app_user.dart';
 import '../../../utils/logging.dart';
 import '../models/auth_exception.dart';
 
@@ -36,6 +37,7 @@ abstract class IAuthRepository {
   ///
   /// An [AuthException] maybe thrown if there is error registering.
   Future<void> registerUserProfile({
+    required String email,
     required String uid,
     required String username,
     required String bio,
@@ -129,6 +131,7 @@ class FirebaseAuthRepository implements IAuthRepository {
 
   @override
   Future<void> registerUserProfile({
+    required String email,
     required String uid,
     required String username,
     required String bio,
@@ -138,14 +141,17 @@ class FirebaseAuthRepository implements IAuthRepository {
       throw AuthExceptionEmptyUsername();
     }
     try {
-      await _firestore.collection('users').doc(uid).set({
-        'username': username,
-        'uid': uid,
-        'bio': bio,
-        'profilePicUrl': profilePicUrl,
-        'followers': [],
-        'following': [],
-      });
+      await _firestore.collection('users').doc(uid).set(
+            AppUser(
+              email: email,
+              uid: uid,
+              photoUrl: profilePicUrl,
+              username: username,
+              bio: bio,
+              followers: [],
+              following: [],
+            ).toJson(),
+          );
       _log.i('Register user profile success');
     } on FirebaseException catch (e) {
       throw AuthExceptionRegistration(
