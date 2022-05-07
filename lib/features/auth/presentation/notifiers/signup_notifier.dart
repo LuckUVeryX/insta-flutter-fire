@@ -78,6 +78,7 @@ class SignupNotifier extends StateNotifier<SignupInfo> {
       }
 
       await _auth.registerUserProfile(
+        email: state.email,
         uid: _auth.userUid,
         username: state.username,
         bio: state.bio,
