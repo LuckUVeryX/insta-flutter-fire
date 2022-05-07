@@ -70,12 +70,14 @@ class MockIAuthRepository extends _i1.Mock implements _i5.IAuthRepository {
           returnValueForMissingStub: Future<void>.value()) as _i3.Future<void>);
   @override
   _i3.Future<void> registerUserProfile(
-          {String? uid,
+          {String? email,
+          String? uid,
           String? username,
           String? bio,
           String? profilePicUrl}) =>
       (super.noSuchMethod(
           Invocation.method(#registerUserProfile, [], {
+            #email: email,
             #uid: uid,
             #username: username,
             #bio: bio,
@@ -89,6 +91,11 @@ class MockIAuthRepository extends _i1.Mock implements _i5.IAuthRepository {
       (super.noSuchMethod(
           Invocation.method(#loginUserWithEmailPassword, [],
               {#email: email, #password: password}),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i3.Future<void>);
+  @override
+  _i3.Future<void> signout() =>
+      (super.noSuchMethod(Invocation.method(#signout, []),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i3.Future<void>);
 }
