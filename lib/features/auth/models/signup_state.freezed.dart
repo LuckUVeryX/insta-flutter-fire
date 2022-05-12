@@ -96,10 +96,11 @@ class _$SignupInfoCopyWithImpl<$Res> implements $SignupInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$SignupInfoCopyWith<$Res> implements $SignupInfoCopyWith<$Res> {
-  factory _$SignupInfoCopyWith(
-          _SignupInfo value, $Res Function(_SignupInfo) then) =
-      __$SignupInfoCopyWithImpl<$Res>;
+abstract class _$$_SignupInfoCopyWith<$Res>
+    implements $SignupInfoCopyWith<$Res> {
+  factory _$$_SignupInfoCopyWith(
+          _$_SignupInfo value, $Res Function(_$_SignupInfo) then) =
+      __$$_SignupInfoCopyWithImpl<$Res>;
   @override
   $Res call(
       {String email,
@@ -112,14 +113,14 @@ abstract class _$SignupInfoCopyWith<$Res> implements $SignupInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$SignupInfoCopyWithImpl<$Res> extends _$SignupInfoCopyWithImpl<$Res>
-    implements _$SignupInfoCopyWith<$Res> {
-  __$SignupInfoCopyWithImpl(
-      _SignupInfo _value, $Res Function(_SignupInfo) _then)
-      : super(_value, (v) => _then(v as _SignupInfo));
+class __$$_SignupInfoCopyWithImpl<$Res> extends _$SignupInfoCopyWithImpl<$Res>
+    implements _$$_SignupInfoCopyWith<$Res> {
+  __$$_SignupInfoCopyWithImpl(
+      _$_SignupInfo _value, $Res Function(_$_SignupInfo) _then)
+      : super(_value, (v) => _then(v as _$_SignupInfo));
 
   @override
-  _SignupInfo get _value => super._value as _SignupInfo;
+  _$_SignupInfo get _value => super._value as _$_SignupInfo;
 
   @override
   $Res call({
@@ -131,7 +132,7 @@ class __$SignupInfoCopyWithImpl<$Res> extends _$SignupInfoCopyWithImpl<$Res>
     Object? exception = freezed,
     Object? isLoading = freezed,
   }) {
-    return _then(_SignupInfo(
+    return _then(_$_SignupInfo(
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -200,7 +201,7 @@ class _$_SignupInfo implements _SignupInfo {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SignupInfo &&
+            other is _$_SignupInfo &&
             const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.password, password) &&
             const DeepCollectionEquality().equals(other.username, username) &&
@@ -223,8 +224,8 @@ class _$_SignupInfo implements _SignupInfo {
 
   @JsonKey(ignore: true)
   @override
-  _$SignupInfoCopyWith<_SignupInfo> get copyWith =>
-      __$SignupInfoCopyWithImpl<_SignupInfo>(this, _$identity);
+  _$$_SignupInfoCopyWith<_$_SignupInfo> get copyWith =>
+      __$$_SignupInfoCopyWithImpl<_$_SignupInfo>(this, _$identity);
 }
 
 abstract class _SignupInfo implements SignupInfo {
@@ -253,6 +254,6 @@ abstract class _SignupInfo implements SignupInfo {
   bool get isLoading => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SignupInfoCopyWith<_SignupInfo> get copyWith =>
+  _$$_SignupInfoCopyWith<_$_SignupInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }

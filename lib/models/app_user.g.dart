@@ -13,10 +13,10 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
       username: json['username'] as String,
       bio: json['bio'] as String,
       followers: (json['followers'] as List<dynamic>)
-          .map((e) => _AppUser.fromJson(e as Map<String, dynamic>))
+          .map((e) => AppUser.fromJson(e as Map<String, dynamic>))
           .toList(),
       following: (json['following'] as List<dynamic>)
-          .map((e) => _AppUser.fromJson(e as Map<String, dynamic>))
+          .map((e) => AppUser.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

@@ -25,8 +25,8 @@ void main() async {
 
   runApp(
     ProviderScope(
-      child: MyApp(),
       observers: [ProviderLogObserver(AppLogger())],
+      child: MyApp(),
     ),
   );
 }

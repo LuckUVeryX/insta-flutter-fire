@@ -3,13 +3,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../notifiers/signup_notifier.dart';
 
-class UploadImageActionSheet extends ConsumerWidget {
-  const UploadImageActionSheet({
-    Key? key,
-  }) : super(key: key);
+class UploadImageActionSheet extends StatefulHookConsumerWidget {
+  const UploadImageActionSheet({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _UploadImageActionSheetState();
+}
+
+class _UploadImageActionSheetState
+    extends ConsumerState<UploadImageActionSheet> {
+  @override
+  Widget build(BuildContext context) {
     final hasimage =
         ref.watch(signupProvider.select((value) => value.file != null));
     return CupertinoActionSheet(
@@ -17,6 +22,7 @@ class UploadImageActionSheet extends ConsumerWidget {
         CupertinoActionSheetAction(
           onPressed: () async {
             await ref.read(signupProvider.notifier).setCameraImage();
+            if (!mounted) return;
             Navigator.of(context).pop();
           },
           child: const Text('Camera'),
@@ -24,6 +30,7 @@ class UploadImageActionSheet extends ConsumerWidget {
         CupertinoActionSheetAction(
           onPressed: () async {
             await ref.read(signupProvider.notifier).setGalleryImage();
+            if (!mounted) return;
             Navigator.of(context).pop();
           },
           child: const Text('Gallery'),
@@ -34,8 +41,8 @@ class UploadImageActionSheet extends ConsumerWidget {
               ref.read(signupProvider.notifier).removeImage();
               Navigator.of(context).pop();
             },
-            child: const Text('Remove Image'),
             isDestructiveAction: true,
+            child: const Text('Remove Image'),
           ),
       ],
     );
