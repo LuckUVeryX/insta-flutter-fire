@@ -82,12 +82,12 @@ class LoginPage extends HookWidget {
                             onPressed: ref
                                 .read(loginProvider.notifier)
                                 .loginUserWithEmailPassword,
-                            child: const Text('Log in'),
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
                             ),
+                            child: const Text('Log in'),
                           );
                   }),
                 ),

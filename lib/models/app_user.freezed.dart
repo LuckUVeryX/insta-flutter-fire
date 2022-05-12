@@ -25,8 +25,8 @@ mixin _$AppUser {
   String? get photoUrl => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get bio => throw _privateConstructorUsedError;
-  List<_AppUser> get followers => throw _privateConstructorUsedError;
-  List<_AppUser> get following => throw _privateConstructorUsedError;
+  List<AppUser> get followers => throw _privateConstructorUsedError;
+  List<AppUser> get following => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,8 +43,8 @@ abstract class $AppUserCopyWith<$Res> {
       String? photoUrl,
       String username,
       String bio,
-      List<_AppUser> followers,
-      List<_AppUser> following});
+      List<AppUser> followers,
+      List<AppUser> following});
 }
 
 /// @nodoc
@@ -89,19 +89,20 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
       followers: followers == freezed
           ? _value.followers
           : followers // ignore: cast_nullable_to_non_nullable
-              as List<_AppUser>,
+              as List<AppUser>,
       following: following == freezed
           ? _value.following
           : following // ignore: cast_nullable_to_non_nullable
-              as List<_AppUser>,
+              as List<AppUser>,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
-  factory _$AppUserCopyWith(_AppUser value, $Res Function(_AppUser) then) =
-      __$AppUserCopyWithImpl<$Res>;
+abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
+  factory _$$_AppUserCopyWith(
+          _$_AppUser value, $Res Function(_$_AppUser) then) =
+      __$$_AppUserCopyWithImpl<$Res>;
   @override
   $Res call(
       {String email,
@@ -109,18 +110,18 @@ abstract class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       String? photoUrl,
       String username,
       String bio,
-      List<_AppUser> followers,
-      List<_AppUser> following});
+      List<AppUser> followers,
+      List<AppUser> following});
 }
 
 /// @nodoc
-class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
-    implements _$AppUserCopyWith<$Res> {
-  __$AppUserCopyWithImpl(_AppUser _value, $Res Function(_AppUser) _then)
-      : super(_value, (v) => _then(v as _AppUser));
+class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
+    implements _$$_AppUserCopyWith<$Res> {
+  __$$_AppUserCopyWithImpl(_$_AppUser _value, $Res Function(_$_AppUser) _then)
+      : super(_value, (v) => _then(v as _$_AppUser));
 
   @override
-  _AppUser get _value => super._value as _AppUser;
+  _$_AppUser get _value => super._value as _$_AppUser;
 
   @override
   $Res call({
@@ -132,7 +133,7 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
     Object? followers = freezed,
     Object? following = freezed,
   }) {
-    return _then(_AppUser(
+    return _then(_$_AppUser(
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -154,13 +155,13 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
           : bio // ignore: cast_nullable_to_non_nullable
               as String,
       followers: followers == freezed
-          ? _value.followers
+          ? _value._followers
           : followers // ignore: cast_nullable_to_non_nullable
-              as List<_AppUser>,
+              as List<AppUser>,
       following: following == freezed
-          ? _value.following
+          ? _value._following
           : following // ignore: cast_nullable_to_non_nullable
-              as List<_AppUser>,
+              as List<AppUser>,
     ));
   }
 }
@@ -175,8 +176,8 @@ class _$_AppUser implements _AppUser {
       required this.photoUrl,
       required this.username,
       required this.bio,
-      required final List<_AppUser> followers,
-      required final List<_AppUser> following})
+      required final List<AppUser> followers,
+      required final List<AppUser> following})
       : _followers = followers,
         _following = following;
 
@@ -193,16 +194,16 @@ class _$_AppUser implements _AppUser {
   final String username;
   @override
   final String bio;
-  final List<_AppUser> _followers;
+  final List<AppUser> _followers;
   @override
-  List<_AppUser> get followers {
+  List<AppUser> get followers {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_followers);
   }
 
-  final List<_AppUser> _following;
+  final List<AppUser> _following;
   @override
-  List<_AppUser> get following {
+  List<AppUser> get following {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_following);
   }
@@ -216,14 +217,16 @@ class _$_AppUser implements _AppUser {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _AppUser &&
+            other is _$_AppUser &&
             const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.uid, uid) &&
             const DeepCollectionEquality().equals(other.photoUrl, photoUrl) &&
             const DeepCollectionEquality().equals(other.username, username) &&
             const DeepCollectionEquality().equals(other.bio, bio) &&
-            const DeepCollectionEquality().equals(other.followers, followers) &&
-            const DeepCollectionEquality().equals(other.following, following));
+            const DeepCollectionEquality()
+                .equals(other._followers, _followers) &&
+            const DeepCollectionEquality()
+                .equals(other._following, _following));
   }
 
   @JsonKey(ignore: true)
@@ -235,13 +238,13 @@ class _$_AppUser implements _AppUser {
       const DeepCollectionEquality().hash(photoUrl),
       const DeepCollectionEquality().hash(username),
       const DeepCollectionEquality().hash(bio),
-      const DeepCollectionEquality().hash(followers),
-      const DeepCollectionEquality().hash(following));
+      const DeepCollectionEquality().hash(_followers),
+      const DeepCollectionEquality().hash(_following));
 
   @JsonKey(ignore: true)
   @override
-  _$AppUserCopyWith<_AppUser> get copyWith =>
-      __$AppUserCopyWithImpl<_AppUser>(this, _$identity);
+  _$$_AppUserCopyWith<_$_AppUser> get copyWith =>
+      __$$_AppUserCopyWithImpl<_$_AppUser>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -256,8 +259,8 @@ abstract class _AppUser implements AppUser {
       required final String? photoUrl,
       required final String username,
       required final String bio,
-      required final List<_AppUser> followers,
-      required final List<_AppUser> following}) = _$_AppUser;
+      required final List<AppUser> followers,
+      required final List<AppUser> following}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
 
@@ -272,11 +275,11 @@ abstract class _AppUser implements AppUser {
   @override
   String get bio => throw _privateConstructorUsedError;
   @override
-  List<_AppUser> get followers => throw _privateConstructorUsedError;
+  List<AppUser> get followers => throw _privateConstructorUsedError;
   @override
-  List<_AppUser> get following => throw _privateConstructorUsedError;
+  List<AppUser> get following => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$AppUserCopyWith<_AppUser> get copyWith =>
+  _$$_AppUserCopyWith<_$_AppUser> get copyWith =>
       throw _privateConstructorUsedError;
 }

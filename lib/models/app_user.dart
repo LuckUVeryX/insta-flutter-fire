@@ -12,8 +12,8 @@ class AppUser with _$AppUser {
     required String? photoUrl,
     required String username,
     required String bio,
-    required List<_AppUser> followers,
-    required List<_AppUser> following,
+    required List<AppUser> followers,
+    required List<AppUser> following,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>

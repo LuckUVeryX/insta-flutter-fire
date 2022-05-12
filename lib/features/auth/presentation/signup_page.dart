@@ -78,6 +78,7 @@ class SignupPage extends HookWidget {
                               radius: 64,
                               backgroundImage:
                                   image != null ? MemoryImage(image) : null,
+                              backgroundColor: colorScheme.onSurfaceVariant,
                               child: image != null
                                   ? null
                                   : Icon(
@@ -85,7 +86,6 @@ class SignupPage extends HookWidget {
                                       size: 80.0,
                                       color: colorScheme.surfaceVariant,
                                     ),
-                              backgroundColor: colorScheme.onSurfaceVariant,
                             ),
                             Positioned(
                               bottom: -10,
@@ -156,12 +156,12 @@ class SignupPage extends HookWidget {
                                       : ref
                                           .read(signupProvider.notifier)
                                           .signUpWithEmailPassword,
-                                  child: const Text('Sign up'),
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
                                   ),
+                                  child: const Text('Sign up'),
                                 ),
                         ),
                         const Spacer(),
